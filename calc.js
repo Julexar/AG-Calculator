@@ -315,7 +315,7 @@ var Calculator = Calculator || (function() {
     },
     
     checkInstall = function() {
-        if (state.value) {
+        if (!state.value) {
             setDefaults();
         }
     },
