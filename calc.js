@@ -16,11 +16,13 @@ var Calculator = Calculator || (function() {
                 gp: 0,
                 res: 0,
                 ms: "No",
+                ph: "No",
                 monsters: [0,0,1.8,0,1.4,0,1.2,0,1,0,2,0,3,0,4,0,5,0,6,0,7,0,8,0,9,0,10,0,11,0,12,0,13,0,14,0,15,0,16,0,17,0,18,0,19,0,20,0,21,0,22,0,23,0,24,0,25,0,26,0,27,0,28,0,29,0,30,0],
                 playernum: 0,
                 div: 1,
                 playlev: "1-2",
                 mult: 1,
+                phmult: 1,
                 rp: 0,
                 maxres: 0,
             }
@@ -61,11 +63,37 @@ var Calculator = Calculator || (function() {
                     break;
                 case '!multishot':
                     if (args[1]=="Yes") {
-                        state.value.now.mult=1.2;
+                        if (state.value.now.ph=="No") {
+                            state.value.now.mult=1.2;
+                        } else {
+                            state.value.now.mult=1.7;
+                        }
                     } else {
-                        state.value.now.mult=1;
+                        if (state.value.now.ph=="No") {
+                            state.value.now.mult=1;
+                        } else {
+                            state.value.now.mult=1.5;
+                        }
                     }
                     state.value.now.ms=args[1];
+                    calcmenu();
+                    break;
+                case '!plothook':
+                    if (args[1]=="Yes") {
+                        if (state.value.now.ms=="No") {
+                            state.value.now.mult=1.5;
+                        } else {
+                            state.value.now.mult=1.7;
+                        }
+                    } else {
+                        if (state.value.now.ms=="No") {
+                            state.value.now.mult=1;
+                        } else {
+                            state.value.now.mult=1.2;
+                        }
+                    }
+                    state.value.now.ph=args[1];
+                    calcmenu();
                     break;
                 case '!setrp':
                     state.value.now.rp=Number(args[1]);
@@ -95,6 +123,7 @@ var Calculator = Calculator || (function() {
             '<tr><td>Number of Players: </td><td><a ' + astyle1 + '" href="!setplayers,?{Amount?|1}">' + state.value.now.playernum + '</a></td></tr>' + //--
             '<tr><td>Levelrange: </td><td><a ' + astyle1 + '" href="!setlevel,?{Level?|1-2|3-4|5-7|6-8|7-9|8-10|11-13|12-14|13-15|14-16|17-19|18-20|20-30}">' + state.value.now.playlev + '</a></td></tr>' + //--
             '<tr><td>Multishot: </td><td><a ' + astyle1 + '" href="!multishot,?{Value?|Yes|No}">' + state.value.now.ms + '</a></td></tr>' + //--
+            '<tr><td>Plothook: </td><td><a ' + astyle1 + '" href="!plothook,?{Value?|Yes|No}">' + state.value.now.ph + '</a></td></tr>' + //--
             '<tr><td>RP Percentage: </td><td><a ' + astyle1 + '" href="!setrp,?{Value?|1}">' + state.value.now.rp + '</a></td></tr>' + //--
             '</table>' + //--
             '<br>' + //--
